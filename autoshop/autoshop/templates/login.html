@@ -1,0 +1,21 @@
+{%extends 'base.html'%}
+{%load crispy_forms_tags%}
+{%block content%}
+    <title>Авторизация</title>
+  <div class="row" style="margin-bottom: 200px; margin-top: 160px;">
+      <div class="col-md-6 offset-md-3">
+        <h3 class="text-center">Авторизация</h3>
+        <hr>
+        <form action="{% url 'login'%}" method="POST">
+          {%csrf_token%}
+          {{ form|crispy }}
+          <input type="submit" class="btn btn-success btn-block" value="Войти">
+        </form>
+        <hr>
+        <p>Нажимая "Войти", вы соглашаетесь с нашей <a href="{% url 'privacy_policy' %}">Политикой конфиденциальности</a>.</p>
+      </div>
+
+
+  </div>
+
+{%endblock content%}

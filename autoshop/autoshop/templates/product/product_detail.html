@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{%block content%}
+    <title>Информация о товаре</title>
+<div class="col-md-12 pt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+
+            <li class="breadcrumb-item">
+                <a href="{%url 'base'%}">Главная</a>
+            </li>
+            <li class="breadcrumb-item active">
+                {{product.name}} ({{ product.type.name }})
+            </li>
+        </ol>
+
+    </nav>
+    <div class="row">
+
+        <div class="col-md-3">
+            <img class="img-fluid rounded border border-primary p-2" src="{{product.image.url}}">
+        </div>
+        <div class="col-md-8">
+            <h4>{{product.name}}</h4>
+
+            <hr>
+
+            <div class="card-body text-left">
+
+                        {%if request.user.is_authenticated%}
+                          {% if product.stock %}
+                              {% if product not in cart.products_in_cart %}
+                                  <a href="{% url 'add_to_cart' ct_model=product.ct_model slug=product.slug%}" class="btn btn-success">
+
+                                    Добавить в корзину
+
+                                  </a>
+                              {% else %}
+                                  <a href="#" class="btn btn-secondary disabled">В корзине</a>
+                              {%endif%}
+                          {%else%}
+                              {% if product not in request.user.customer.wishlist.all %}
+                                    <a href="{% url 'add_to_wishlist' product_id=product.id %}" class="btn btn-warning">
+                                      Сообщить о поступлении
+                                    </a>
+                              {%else%}
+                                      <a href="#" class="btn btn-secondary disabled">В ожидаемом</a>
+                              {% endif%}
+                          {%endif%}
+
+                        {% else %}
+                            <a href="#" class="btn btn-default" disabled="">Авторизуйтесь или зарегистрируйтесь для осуществления заказа</a>
+                        {%endif%}
+
+
+                      </div>
+            <hr>
+            <p><strong>Цена:</strong> {{product.price}} руб</p>
+            <p>В наличии: {% if product.stock %}<strong class="badge bg-success">
+                    {{ product.stock }} шт. </strong>
+                    {%else%}
+                    <strong class="badge bg-danger">Нет</strong>
+                    {%endif%}
+            </p>
+            <p>Тип товара: {{product.type.name}}</p>
+            <p>Производитель: {{product.manufacturer.name}}</p>
+            <p>Описание:</p> <p>{{product.description|linebreaksbr}}</p>
+
+
+
+        </div>
+
+    </div>
+
+
+
+</div>
+
+{%endblock content%}

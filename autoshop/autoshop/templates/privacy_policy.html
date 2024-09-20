@@ -1,0 +1,9 @@
+{%extends 'base.html'%}
+
+{%block content%}
+    <title>Политика конфиденциальности</title>
+<div class="card-body">
+    <h4>{{ privacy_policy.title }}</h4>
+    {{ privacy_policy.content|safe }}
+</div>
+{%endblock content%}
